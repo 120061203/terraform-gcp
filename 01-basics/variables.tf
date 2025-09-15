@@ -64,11 +64,7 @@ variable "machine_type" {
   }
 }
 
-variable "image" {
-  description = "虛擬機器映像"
-  type        = string
-  default     = "ubuntu-os-cloud/ubuntu-2004-lts"
-}
+# image變數已移除，改用source_image_family和source_image_project
 
 variable "disk_size" {
   description = "啟動磁碟大小（GB）"
@@ -146,6 +142,12 @@ variable "allowed_http_cidrs" {
 # 監控和日誌變數
 variable "enable_monitoring" {
   description = "是否啟用監控"
+  type        = bool
+  default     = true
+}
+
+variable "enable_logging" {
+  description = "是否啟用日誌"
   type        = bool
   default     = true
 }

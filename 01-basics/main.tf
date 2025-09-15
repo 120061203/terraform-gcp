@@ -109,7 +109,7 @@ resource "google_compute_instance" "web_server" {
   # 啟動磁碟
   boot_disk {
     initialize_params {
-      image = var.image
+      image = "ubuntu-os-cloud/ubuntu-2204-lts"
       size  = var.disk_size
       type  = var.disk_type
     }

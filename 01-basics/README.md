@@ -277,6 +277,87 @@ terraform destroy
 # 輸入 yes 確認
 ```
 
+## 常見問題與解決方案
+
+### 問題1：GCP API未啟用錯誤
+**錯誤訊息：**
+```
+Error 403: Compute Engine API has not been used in project xxx before or it is disabled
+```
+
+**解決方案：**
+1. 在GCP控制台中啟用必要的API：
+   - Compute Engine API
+   - Cloud Resource Manager API
+   - IAM Service Account Credentials API
+2. 等待2-3分鐘讓API生效
+3. 重新執行 `terraform apply`
+
+### 問題2：未聲明的變數警告
+**錯誤訊息：**
+```
+Warning: Value for undeclared variable "enable_logging"
+```
+
+**解決方案：**
+在 `variables.tf` 中添加缺失的變數聲明：
+```hcl
+variable "enable_logging" {
+  description = "是否啟用日誌"
+  type        = bool
+  default     = true
+}
+```
+
+### 問題3：服務帳戶ID格式錯誤
+**錯誤訊息：**
+```
+Error: "account_id" doesn't match regexp "^[a-z](?:[-a-z0-9]{4,28}[a-z0-9])$"
+```
+
+**解決方案：**
+確保 `project_name` 符合GCP命名規則：
+- 以字母開頭
+- 4-28個字符
+- 只能包含小寫字母、數字和連字符
+- 以字母或數字結尾
+
+### 問題4：Ubuntu映像找不到
+**錯誤訊息：**
+```
+Error: Could not find image or family ubuntu-2004-lts
+```
+
+**解決方案：**
+使用正確的映像路徑格式：
+```hcl
+boot_disk {
+  initialize_params {
+    image = "ubuntu-os-cloud/ubuntu-2204-lts"  # 使用可用的映像
+    size  = var.disk_size
+    type  = var.disk_type
+  }
+}
+```
+
+**可用的Ubuntu映像：**
+- `ubuntu-os-cloud/ubuntu-2204-lts` - Ubuntu 22.04 LTS (推薦)
+- `ubuntu-os-cloud/ubuntu-2004-lts` - Ubuntu 20.04 LTS
+- `ubuntu-os-cloud/ubuntu-1804-lts` - Ubuntu 18.04 LTS
+
+### 問題5：gcloud CLI認證問題
+**錯誤訊息：**
+```
+You do not currently have an active account selected
+```
+
+**解決方案：**
+```bash
+gcloud auth application-default login
+gcloud config set project YOUR_PROJECT_ID
+gcloud auth application-default set-quota-project YOUR_PROJECT_ID
+```
+
 ## 下一步
 
 完成本章後，您可以：
