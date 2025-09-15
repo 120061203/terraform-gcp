@@ -1,0 +1,35 @@
+# Terraform變數範例文件
+# 複製此文件為 terraform.tfvars 並填入您的實際值
+
+# 必要變數 - 必須提供
+project_id = "your-gcp-project-id"
+
+# 可選變數 - 可以根據需要修改
+project_name = "my-terraform-learning"
+region      = "asia-east1"
+zone        = "asia-east1-a"
+
+# 網路配置
+subnet_cidr = "10.0.1.0/24"
+
+# Compute Engine配置
+machine_type = "e2-micro"  # 免費層級
+image        = "ubuntu-os-cloud/ubuntu-2004-lts"
+disk_size    = 20
+disk_type    = "pd-standard"
+
+# 環境標籤
+environment = "learning"
+owner       = "your-name"
+
+# 安全配置
+allowed_ssh_cidrs  = ["0.0.0.0/0"]  # 生產環境請限制為特定IP
+allowed_http_cidrs = ["0.0.0.0/0"]
+
+# 功能開關
+enable_external_ip         = true
+enable_deletion_protection = false
+enable_monitoring          = true
+
+# 日誌配置
+log_retention_days = 30
